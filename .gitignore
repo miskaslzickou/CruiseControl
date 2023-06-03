@@ -3,4 +3,6 @@
 # Ignore a specific file
 my_token.py
 
+my_dictionary.oy
+
 # Ignore a file in a specific directory
