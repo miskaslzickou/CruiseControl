@@ -1,6 +1,6 @@
 # .gitignore
 
 # Ignore a specific file
-token.py
+my_token.py
 
 # Ignore a file in a specific directory

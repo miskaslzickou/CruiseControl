@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import math
 import os
-import token.py
+from my_token import token
 
 
 prefix = "$"  # Set your desired prefix here
@@ -16,8 +16,52 @@ bot.remove_command("help")
 
 @bot.event
 async def on_message(message):
+     
     print(f"Message from {message.author}: {message.content}")
     await bot.process_commands(message)  # Process commands alongside message events
+
+@bot.event
+async def on_message(message):
+    target_channel_id = 1114845892923633684  # Replace with the actual target channel ID
+    target_channel = bot.get_channel(target_channel_id)
+
+    if message.channel == target_channel:
+        return  # Skip processing for the target channel
+
+    # Process commands for other channels
+    await bot.process_commands(message)
+
+    # Send messages to the target channel
+    if target_channel:
+        msg_content = f"Message from {message.author}: {message.content}"
+        await target_channel.send(msg_content)
+
+
+
+@bot.event
+async def on_voice_state_update(member, before, after):
+    channel_id = 1114845892923633684  # Replace with the actual channel ID
+    channel = bot.get_channel(channel_id)
+
+    if channel:
+        if before.channel != after.channel:
+            if after.channel is not None:
+                # Member connected to a voice channel
+                message = f"{member.name} connected to {after.channel.name}"
+                await channel.send(message)
+            elif before.channel is not None:
+                # Member disconnected from a voice channel
+                message = f"{member.name} disconnected from {before.channel.name}"
+                await channel.send(message)
+        elif before.channel == after.channel and before.channel is not None and after.channel is not None:
+            # Member was kicked from a voice channel
+            message = f"{member.name} was kicked from {before.channel.name}"
+            await channel.send(message)
+    else:
+        print("The specified channel was not found.")
+
+
+
 
 @bot.command()
 async def math(ctx, *args):
