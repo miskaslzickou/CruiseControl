@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import math
 import os
+import token.py
 
 
 prefix = "$"  # Set your desired prefix here
@@ -61,4 +62,4 @@ async def report(ctx, *, message: str):
 async def on_ready():
       print(f"Bot is online and ready. Bot owner: {bot.owner_id}")
 
-bot.run('MTExNDgyMzYxNjg1NzY0OTE5Mg.G2f7yx._v00_D3FehztBCbmEpz49X1Dr5YD3IpecIPJYE',reconnect=True)
+bot.run(token,reconnect=True)
